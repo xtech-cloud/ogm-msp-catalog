@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+import "proto/catalog/shared.proto";
+
+package group;
+option go_package = "proto/catalog;catalog";
+
+// 卷
+service Volume
+{
+    // 创建
+    rpc Create(VolumeCreateRequest) returns (UuidResponse) { }
+    // 更新
+    rpc Update(VolumeUpdateRequest) returns (UuidResponse) { }
+    // 删除
+    rpc Delete(VolumeDeleteRequest) returns (UuidResponse) { }
+    // 获取
+    rpc Get(VolumeGetRequest) returns (VolumeGetResponse) { }
+    // 列举
+    rpc List(VolumeListRequest) returns (VolumeListResponse) { }
+    // 搜索
+    rpc Search(VolumeSearchRequest) returns (VolumeListResponse) { }
+    // 导出
+    rpc Export(VolumeExportRequest) returns (VolumeExportResponse) { }
+}
+
+// 创建的请求
+message VolumeCreateRequest
+{
+    string key = 1;  // 键
+    string name = 2; // 名称
+}
+
+// 更新的请求
+message VolumeUpdateRequest
+{
+    string uuid = 1; // uuid
+    string key = 2;  // 键
+    string name = 3; // 名称
+}
+
+// 删除的请求
+message VolumeDeleteRequest
+{
+    string uuid = 1; // uuid
+}
+
+// 列举的请求
+message VolumeListRequest
+{
+    int64 offset = 1; // 偏移值
+    int64 count = 2;  // 数量
+}
+
+// 搜索的请求
+message VolumeSearchRequest
+{
+    int64 offset = 1; // 偏移值
+    int64 count = 2;  // 数量
+    string key = 10;  // 键
+    string name = 11; // 名称
+}
+
+// 列举的回复
+message VolumeListResponse
+{
+    Status status = 1;                // 状态
+    uint64 total = 2;                 // 总数
+    repeated VolumeEntity entity = 3; // 实体列表
+}
+
+// 获取的请求
+message VolumeGetRequest
+{
+    string uuid = 1; // uuid
+}
+
+// 获取的回复
+message VolumeGetResponse
+{
+    Status status = 1;       // 状态
+    VolumeEntity entity = 2; // 实体
+}
+
+// 导出的请求
+message VolumeExportRequest
+{
+    string uuid = 2; // uuid
+}
+
+// 导出的回复
+message VolumeExportResponse
+{
+    Status status = 1; // 状态
+    string dump = 2;   // 导出文本
+}

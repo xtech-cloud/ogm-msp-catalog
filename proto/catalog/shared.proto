@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package group;
+option go_package = "proto/catalog;catalog";
+
+// 状态
+message Status
+{
+    int32 code = 1;     // 状态码
+    string message = 2; // 状态信息
+}
+
+// 空白请求
+message BlankRequest
+{
+}
+
+// 空白回复
+message BlankResponse
+{
+    Status status = 1; // 状态
+}
+
+// 带UUID的回复
+message UuidResponse
+{
+    Status status = 1; // 状态
+    string uuid = 2;   // uuid
+}
+
+// 卷实体
+message VolumeEntity
+{
+    string uuid = 1; // uuid
+    string key = 2;  // 键
+    string name = 3; // 名称
+}
+
+// 路径实体
+message PathEntity
+{
+    string uuid = 1;                    // uuid
+    string volume = 2;                  // 卷的uuid
+    string uri = 3;                     // 资源标识
+    string name = 10;                   // 名称
+    map<string, string> name_i18n = 11; // 名称的多国语言
+    repeated string label = 20;         // 预设标签列表
+    repeated string tag = 21;           // 自定义标签列表
+    repeated string resource = 30;      // 内容列表
+}

@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+import "proto/catalog/shared.proto";
+
+package group;
+option go_package = "proto/catalog;catalog";
+
+// 路径
+service Path
+{
+    // 添加
+    rpc Add(PathAddRequest) returns (UuidResponse) { }
+    // 更新
+    rpc Update(PathUpdateRequest) returns (UuidResponse) { }
+    // 移除
+    rpc Remove(PathDeleteRequest) returns (UuidResponse) { }
+    // 获取
+    rpc Get(PathGetRequest) returns (PathGetResponse) { }
+    // 列举
+    rpc List(PathListRequest) returns (PathListResponse) { }
+    // 搜索
+    rpc Search(PathSearchRequest) returns (PathListResponse) { }
+}
+
+// 添加的请求
+message PathAddRequest
+{
+    string volume = 1;                  // 卷的uuid
+    string uri = 2;                     // 资源标识
+    string name = 10;                   // 名称
+    map<string, string> name_i18n = 11; // 名称的多国语言
+    repeated string label = 20;         // 预设标签列表
+    repeated string tag = 21;           // 自定义标签列表
+    repeated string resource = 30;      // 内容列表
+}
+
+// 更新的请求
+message PathUpdateRequest
+{
+    string uuid = 1;                    // uuid
+    string uri = 2;                     // 资源标识
+    string name = 10;                   // 名称
+    map<string, string> name_i18n = 11; // 名称的多国语言
+    repeated string label = 20;         // 预设标签列表
+    repeated string tag = 21;           // 自定义标签列表
+    repeated string resource = 30;      // 内容列表
+}
+
+// 删除的请求
+message PathDeleteRequest
+{
+    string uuid = 1; // uuid
+}
+
+// 列举的请求
+message PathListRequest
+{
+    int64 offset = 1; // 偏移值
+    int64 count = 2;  // 数量
+}
+
+// 搜索的请求
+message PathSearchRequest
+{
+    int64 offset = 1;  // 偏移值
+    int64 count = 2;   // 数量
+    string volume = 3; // 卷的uuid
+    string uri = 10;   // 资源标识
+    string name = 11;  // 名称
+}
+
+// 列举的回复
+message PathListResponse
+{
+    Status status = 1;              // 状态
+    uint64 total = 2;               // 总数
+    repeated PathEntity entity = 3; // 实体列表
+}
+
+// 获取的请求
+message PathGetRequest
+{
+    string uuid = 1; // uuid
+}
+
+// 获取的回复
+message PathGetResponse
+{
+    Status status = 1;     // 状态
+    PathEntity entity = 2; // 实体
+}

@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package group;
-option go_package = "proto/permission;permission";
+option go_package = "proto/catalog;catalog";
 
 // 健康
 service Healthy {
